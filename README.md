@@ -12,17 +12,17 @@ __Project Structure__
 ```text
 📁 src/
     └─ api/
-        ├─ assertions/
-        │   ├─ user.assertions.ts
-        │   └─ users.assertions.ts
-        ├─ clients/
-        │   └─ users.client.ts
-        ├─ models/
-        │   ├─ register.model.ts
-        │   ├─ user.model.ts
-        │   └─ users.model.ts
-        └─ payloads/
-            └─ register.payload.ts
+    │   ├─ assertions/
+    │   │   ├─ user.assertions.ts
+    │   │   └─ users.assertions.ts
+    │   ├─ clients/
+    │   │   └─ users.client.ts
+    │   ├─ models/
+    │   │   ├─ register.model.ts
+    │   │   ├─ user.model.ts
+    │   │   └─ users.model.ts
+    │   └─ payloads/
+    │        └─ register.payload.ts
     └─ utils/
         └─ random.ts
 📁 tests/
@@ -72,5 +72,6 @@ Mock API constraints:
 	-Limited error handling testing
 	
 	-Negative scenarios (e.g., invalid IDs, malformed requests) are not exhaustively tested due to API limitations.
+
 
 
