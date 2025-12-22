@@ -1,6 +1,6 @@
 ﻿API Testing Challenge – Playwright
 
-This project contains automated API tests implemented as part of a technical challenge.
+This project contains automated API tests implemented as part of a technical challenge. Basic github action added to run tests on each push for the main branch.
 
 __Tech Stack__
 - Playwright
@@ -72,4 +72,5 @@ Mock API constraints:
 	-Limited error handling testing
 	
 	-Negative scenarios (e.g., invalid IDs, malformed requests) are not exhaustively tested due to API limitations.
+
 
