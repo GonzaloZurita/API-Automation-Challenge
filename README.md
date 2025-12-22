@@ -41,18 +41,18 @@ __Project Structure__
 __How to Run the Tests__
 
 #1. Install dependencies
--bash
--npm install
+- bash
+- npm install
 
 #2. Run all tests
--bash
--Copiar código
--npx playwright test
+- bash
+- Copiar código
+- npx playwright test
 
 #3. View HTML report
--bash
--Copiar código
--npx playwright show-report
+- bash
+- Copiar código
+- npx playwright show-report
 
 __Limitations__
 
