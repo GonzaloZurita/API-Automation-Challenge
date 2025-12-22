@@ -1,0 +1,688 @@
+{
+	"info": {
+		"_postman_id": "f46ab0d2-7f54-420c-987f-d9fa66edd721",
+		"name": "ReqRes - User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14358228"
+	},
+	"item": [
+		{
+			"name": "happy",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ============================================\r",
+									"// STATUS CODE TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Register User - 200 status\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const responseJson = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"// ============================================\r",
+									"// SCHEMA & STRUCTURE TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Register User - response schema\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"    pm.expect(responseJson).to.have.property(\"token\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// ============================================\r",
+									"// DATA INTEGRITY TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Register User - id generated is a positive integer\",function(){\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.id).to.be.above(0);\r",
+									"    pm.expect(Number.isInteger(responseJson.id)).to.be.true;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Register User - token generated exists\",function(){\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.token).to.have.length.above(0);\r",
+									"})\r",
+									"\r",
+									"//Data consistency test example, but since using reqres mock api, won't be focusing on this type of tests\r",
+									"pm.test(\"Register User - store user data\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    // From request body\r",
+									"    pm.collectionVariables.set(\"new_user_email\", requestBody.email);\r",
+									"    pm.collectionVariables.set(\"new_user_password\", requestBody.password);\r",
+									"    pm.collectionVariables.set(\"new_user_first_name\", requestBody.first_name);\r",
+									"\r",
+									"    // From response\r",
+									"    pm.collectionVariables.set(\"new_user_id\", responseJson.id);\r",
+									"    pm.collectionVariables.set(\"new_user_token\", responseJson.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"george.bluth@reqres.in\",\r\n    \"password\": \"test\",\r\n    \"first_name\": \"Morpheus\",\r\n    \"last_name\": \"Ameris\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ============================================",
+									"// STATUS CODE TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Query User by ID - 200 status\",function(){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"// ============================================",
+									"// SCHEMA & STRUCTURE TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Query User by ID - response schema\",function(){",
+									"    const schema = {",
+									"        type: \"object\",",
+									"        required: [\"data\", \"support\", \"_meta\"],",
+									"        properties: {",
+									"            data: {",
+									"                type: \"object\",",
+									"                required: [\"id\", \"email\", \"first_name\", \"last_name\", \"avatar\"],",
+									"                properties: {",
+									"                    id: { type: \"number\" },",
+									"                    email: { type: \"string\" },",
+									"                    first_name: { type: \"string\" },",
+									"                    last_name: { type: \"string\" },",
+									"                    avatar: { type: \"string\" }",
+									"                }",
+									"            },",
+									"            support: {",
+									"                type: \"object\",",
+									"                required: [\"url\", \"text\"],",
+									"                properties: {",
+									"                    url: { type: \"string\" },",
+									"                    text: { type: \"string\" }",
+									"                }",
+									"            },",
+									"            _meta: {",
+									"                type: \"object\",",
+									"                required: [\"powered_by\", \"upgrade_url\", \"docs_url\", \"template_gallery\", \"message\", \"features\", \"upgrade_cta\"],",
+									"                properties: {",
+									"                    powered_by: { type: \"string\" },",
+									"                    upgrade_url: { type: \"string\" },",
+									"                    docs_url: { type: \"string\" },",
+									"                    template_gallery: { type: \"string\" },",
+									"                    message: { type: \"string\" },",
+									"                    features: {",
+									"                        type: \"array\",",
+									"                        items: { type: \"string\" }",
+									"                    },",
+									"                    upgrade_cta: { type: \"string\" }",
+									"                }",
+									"            }",
+									"        }",
+									"    };",
+									"    ",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"})",
+									"",
+									"//Data consistency example, but since using reqres mock api, won't be focusing on this type of tests",
+									"pm.test(\"Query User by ID - first name\",function(){",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.data.first_name).to.eql(pm.collectionVariables.get(\"new_user_first_name\")); //This will fail because of reqres being a mock API with no real data consistency",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/{{new_user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{new_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Helper function to fetch a specific page",
+									"async function fetchPage(pageNum) {",
+									"    return pm.sendRequest({",
+									"        url: pm.request.url.toString() + \"?page=\" + pageNum,",
+									"        method: \"GET\",",
+									"        header: {",
+									"            \"x-api-key\": pm.variables.get(\"x-api-key\")",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"// ============================================",
+									"// STATUS CODE TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Get Users - 200 status\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// ============================================",
+									"// SCHEMA & STRUCTURE TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Get Users - response schema validation\", function() {",
+									"    const schema = {",
+									"        type: \"object\",",
+									"        required: [\"page\", \"per_page\", \"total\", \"total_pages\", \"data\", \"support\"],",
+									"        properties: {",
+									"            page: { type: \"number\" },",
+									"            per_page: { type: \"number\" },",
+									"            total: { type: \"number\" },",
+									"            total_pages: { type: \"number\" },",
+									"            data: {",
+									"                type: \"array\",",
+									"                items: {",
+									"                    type: \"object\",",
+									"                    required: [\"id\", \"email\", \"first_name\", \"last_name\", \"avatar\"],",
+									"                    properties: {",
+									"                        id: { type: \"number\" },",
+									"                        email: { type: \"string\" },",
+									"                        first_name: { type: \"string\" },",
+									"                        last_name: { type: \"string\" },",
+									"                        avatar: { type: \"string\" }",
+									"                    }",
+									"                }",
+									"            },",
+									"            support: {",
+									"                type: \"object\",",
+									"                required: [\"url\", \"text\"],",
+									"                properties: {",
+									"                    url: { type: \"string\" },",
+									"                    text: { type: \"string\" }",
+									"                }",
+									"            },",
+									"            _meta: {",
+									"                type: \"object\",",
+									"                required: [\"powered_by\", \"upgrade_url\", \"docs_url\", \"template_gallery\", \"message\", \"features\", \"upgrade_cta\"],",
+									"                properties: {",
+									"                    powered_by: { type: \"string\" },",
+									"                    upgrade_url: { type: \"string\" },",
+									"                    docs_url: { type: \"string\" },",
+									"                    template_gallery: { type: \"string\" },",
+									"                    message: { type: \"string\" },",
+									"                    features: {",
+									"                        type: \"array\",",
+									"                        items: { type: \"string\" }",
+									"                    },",
+									"                    upgrade_cta: { type: \"string\" }",
+									"                }",
+									"            }",
+									"        }",
+									"    }; ",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"// ============================================",
+									"// PAGINATION LOGIC TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Get Users - default page is 1\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.page).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Get Users - total of pages matches total per page\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    const expectedPages = Math.ceil(responseJson.total / responseJson.per_page);",
+									"    pm.expect(responseJson.total_pages).to.eql(expectedPages,\"Wrong matching between total of pages and total per page\");",
+									"});",
+									"",
+									"pm.test(\"Get Users - amount of users per page\", function() {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.data.length).to.be.eq(responseJson.per_page);",
+									"});",
+									"",
+									"pm.test(\"Get Users - total amount of users\", async function() {",
+									"    const firstResponseJson = pm.response.json();",
+									"    let totalCount = firstResponseJson.data.length;",
+									"",
+									"    const secondPageResponse = await fetchPage(2);",
+									"    const secondResponseJson = secondPageResponse.json();",
+									"    totalCount += secondResponseJson.data.length;",
+									"",
+									"    pm.expect(totalCount).to.eql(firstResponseJson.total,\"There are more or less users than mentioned on Total parameter in page 1\");",
+									"    pm.expect(totalCount).to.eql(secondResponseJson.total,\"There are more or less users than mentioned on Total parameter in page 2\");",
+									"});",
+									"",
+									"pm.test(\"Get Users - all pages that exist contain correct amount of users\", async function() {",
+									"    const responseJson = pm.response.json();",
+									"    const totalPages = responseJson.total_pages;",
+									"    const perPage = responseJson.per_page;",
+									"",
+									"    for (let page = 1; page <= totalPages; page++) {",
+									"        const pageResponse = await fetchPage(page);",
+									"        ",
+									"        pm.expect(pageResponse.code).to.eql(200);",
+									"        const pageData = pageResponse.json().data;",
+									"        pm.expect(pageData.length).to.be.above(0,\"This page \"+pageData.page+\" is empty (does not have any users)\");",
+									"        pm.expect(pageData.length).to.be.at.most(perPage,\"This page \"+pageData.page+\" has more users than expected\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Get Users - no users or extra pages exist\", async function() {",
+									"    const responseJson = pm.response.json();",
+									"    const totalPages = responseJson.total_pages;",
+									"    const nonExistentPage = totalPages + 1;",
+									"",
+									"    const pageResponse = await fetchPage(nonExistentPage);",
+									"",
+									"    pm.expect(pageResponse.code).to.eql(200);",
+									"    pm.expect(pageResponse.json().data.length).to.eql(0);",
+									"});",
+									"",
+									"// ============================================",
+									"// DATA INTEGRITY TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Get Users - all user IDs are unique\", async function () {",
+									"    const responseJson = pm.response.json();",
+									"    const totalPages = responseJson.total_pages;",
+									"    let allIds = [];",
+									"",
+									"    for (let page = 1; page <= totalPages; page++) {",
+									"        const pageResponse = await fetchPage(page);",
+									"        const pageData = pageResponse.json().data;",
+									"        const pageIds = pageData.map(user => user.id);",
+									"        allIds = allIds.concat(pageIds);",
+									"    }",
+									"",
+									"    const uniqueIds = [...new Set(allIds)];",
+									"    pm.expect(allIds.length).to.eql(uniqueIds.length);",
+									"    pm.expect(allIds.length).to.eql(responseJson.total);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ============================================\r",
+									"// STATUS CODE TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Query User by ID - 204 status\",function(){\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/{{new_user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{new_user_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "negative",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ============================================\r",
+									"// STATUS CODE TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Register User - error 400 status\",function(){\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"// ============================================\r",
+									"// SCHEMA & STRUCTURE TESTS\r",
+									"// ============================================\r",
+									"\r",
+									"pm.test(\"Register User - error response schema\", function () {\r",
+									"    const errorSchema = {\r",
+									"    type: \"object\",\r",
+									"    required: [\"error\"],\r",
+									"    properties: {\r",
+									"        error: {\r",
+									"            type: \"string\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"pm.response.to.have.jsonSchema(errorSchema);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"george.bluth@reqres.in\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ============================================",
+									"// STATUS CODE TESTS",
+									"// ============================================",
+									"",
+									"pm.test(\"Query User by ID - error 404 status\",function(){",
+									"    pm.response.to.have.status(404);",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/500",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"500"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"const baseUrl = pm.variables.get(\"base_url\");\r",
+					"const apiKey = pm.variables.get(\"x-api-key\");\r",
+					"\r",
+					"if (!baseUrl) {\r",
+					"    throw new Error(\"base_url variable is not set\");\r",
+					"}\r",
+					"\r",
+					"if (!apiKey) {\r",
+					"    throw new Error(\"x-api-key variable is not set\");\r",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "x-api-key",
+			"value": ""
+		},
+		{
+			"key": "base_url",
+			"value": ""
+		},
+		{
+			"key": "new_user_id",
+			"value": ""
+		},
+		{
+			"key": "test",
+			"value": ""
+		},
+		{
+			"key": "new_user_email",
+			"value": ""
+		},
+		{
+			"key": "new_user_password",
+			"value": ""
+		},
+		{
+			"key": "new_user_first_name",
+			"value": ""
+		},
+		{
+			"key": "new_user_token",
+			"value": ""
+		}
+	]
+}
