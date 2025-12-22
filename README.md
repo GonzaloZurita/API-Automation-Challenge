@@ -9,25 +9,27 @@ __Tech Stack__
 
 __Project Structure__
 
--src/
-	└─ api/
-	│	└─assertions/
-	│	│	└─user.assertions.ts
-	│	│	└─users.assertions.ts	
-	│	└─ clients/
-	│	│	└─users.client.ts
-	│	└─ models/
-	│	│	└─register.model.ts
-	│	│	└─user.model.ts
-	│	│	└─users.model.ts
-	│	└─ payloads/
-	│		└─register.payload.ts
-	└─ utils/
-		└─random.ts
--tests/
-	└─ api/
-		├─ users.happy.spec.ts
-		└─ users.negative.spec.ts
+```text
+📁 src/
+    └─ api/
+        ├─ assertions/
+        │   ├─ user.assertions.ts
+        │   └─ users.assertions.ts
+        ├─ clients/
+        │   └─ users.client.ts
+        ├─ models/
+        │   ├─ register.model.ts
+        │   ├─ user.model.ts
+        │   └─ users.model.ts
+        └─ payloads/
+            └─ register.payload.ts
+    └─ utils/
+        └─ random.ts
+📁 tests/
+    └─ api/
+        ├─ users.happy.spec.ts
+        └─ users.negative.spec.ts
+```
 
 
 - **Happy path tests**: valid scenarios with expected successful responses
@@ -35,7 +37,7 @@ __Project Structure__
 
 __How to Run the Tests__
 #1. Install dependencies
--```bash
+-bash
 -npm install
 #2. Run all tests
 -bash
