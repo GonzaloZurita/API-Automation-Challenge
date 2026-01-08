@@ -27,8 +27,15 @@ export function expectValidMetaData(meta: UserMetaData): void {
   expect(meta.powered_by).toEqual(expect.any(String));
   expect(meta.upgrade_url).toEqual(expect.any(String));
   expect(meta.docs_url).toEqual(expect.any(String));
-  expect(meta.template_gallery).toEqual(expect.any(String));
+//We do not have template_gallery anymore, and we need to add meta.variant, and meta.example_url
+//expect(meta.template_gallery).toEqual(expect.any(String));
+  expect(meta.example_url).toEqual(expect.any(String));
+  expect(meta.variant).toEqual(expect.any(String));
   expect(meta.message).toEqual(expect.any(String));
-  expect(meta.features).toEqual(expect.any(Array));
-  expect(meta.upgrade_cta).toEqual(expect.any(String));
+//Need to check meta.cta is now an object and also check new meta.cta parameters, since now meta.cta has a new interface  
+//expect(meta.cta).toEqual(expect.any(Array));
+  expect(meta.cta).toEqual(expect.any(Object));
+  expect(meta.cta.label).toEqual(expect.any(String));
+  expect(meta.cta.url).toEqual(expect.any(String));
+  expect(meta.context).toEqual(expect.any(String));
 }

@@ -6,7 +6,7 @@ import { IncompleteRegisterPayload } from '../../src/api/payloads/register.paylo
 // API - NEGATIVE REGISTER USER TESTS
 // ============================================
 test.describe('Negative Register User API - Register User Error', () => {
-  test('Return 400 error when registering with email only', async ({ request }) => {
+  test('Return status code 400 error when registering with email only', async ({ request }) => {
 
     const requestBody = IncompleteRegisterPayload;
 
@@ -18,7 +18,7 @@ test.describe('Negative Register User API - Register User Error', () => {
     // STATUS CODE
     // ============================================
     await test.step('Verify POST returns status code 400', async () => {
-      expect(response.status(),'Expected HTTP 400 when registering user without password').toBe(400);
+      expect(response.status(),'Expected status code 400 when registering user without password').toBe(400);
     });
 
     // ============================================
@@ -42,7 +42,7 @@ test.describe('Negative Register User API - Register User Error', () => {
 // API - NEGATIVE GET USER TESTS
 // ============================================
 test.describe('Negative Get User by ID - Get User by ID Error',()=>{
-    test('Return 404 with non-existing user ID',async ({request})=>{
+    test('Return status code 404 with non-existing user ID',async ({request})=>{
         const randomint= getRandomInt(15,50)
         const response = await request.get(`users/${randomint}`);
 
@@ -51,8 +51,8 @@ test.describe('Negative Get User by ID - Get User by ID Error',()=>{
     // ============================================
     // STATUS CODE
     // ============================================
-    await test.step('Verify Get by id returns code 404 for non-existing user id',async()=>{
-        expect(response.status(),'Expect 404 status code when trying to get non-existing user by user id').toBe(404);
+    await test.step('Verify Get by id returns status code 404 for non-existing user id',async()=>{
+        expect(response.status(),'Expect status code 404 status code when trying to get non-existing user by user id').toBe(404);
         })
     })
 });
