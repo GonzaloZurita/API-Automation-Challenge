@@ -3,7 +3,7 @@
 This project contains automated API tests implemented as part of a technical challenge.
 Basic github action added to run tests on each push for the main branch.
 Postman collection for manual scenarios uploaded also on this repo as "ReqRes - User Management.postman_collection.json"
-This project is using "https://reqres.in/" mock API, read more on Limitations sections to understand what this involves
+This project is using "https://reqres.in/" mock API, read more on Limitations sections to understand what this involves.
 
 __Tech Stack__
 - Playwright
